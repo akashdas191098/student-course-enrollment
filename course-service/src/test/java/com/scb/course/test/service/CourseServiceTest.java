@@ -11,9 +11,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNotNull;
@@ -49,6 +52,23 @@ public class CourseServiceTest {
         assertEquals("equal",expectedCourse().getDuration(),actualCourse.getDuration());
         assertEquals("equal",expectedCourse().getDescription(),actualCourse.getDescription());
 
+    }
+
+    @Test
+    public void getAllCoursesTest(){
+        when(courseRepository.findAll()).thenReturn(expectedListCourses());
+
+        List<Courses> actualCourses = courseService.allCourses();
+
+        assertNotNull("equal",actualCourses);
+        assertEquals("equal",expectedListCourses().size(),actualCourses.size());
+        assertIterableEquals(expectedListCourses(),actualCourses);
+    }
+
+    public List<Courses> expectedListCourses(){
+        List<Courses> expectedCourses = Arrays.asList(new Courses(1,"test","test","test")
+        ,new Courses(2,"test","test","test"));
+        return expectedCourses;
     }
 
     public CourseRequest createCourseRequest(){
