@@ -20,12 +20,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(StudentRequest studentRequest) {
-        Student student = buildCourse(studentRequest);
+        Student student = buildStudent(studentRequest);
         Student savedStudent = studentRepository.save(student);
         return savedStudent;
     }
 
-    private Student buildCourse(StudentRequest studentRequest) {
+    private Student buildStudent(StudentRequest studentRequest) {
         return Student.builder()
                 .name(studentRequest.getName())
                 .email(studentRequest.getEmail()).build();
